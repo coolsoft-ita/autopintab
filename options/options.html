@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css"/>
+    <link rel="stylesheet" href="options.css"/>
+    <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="options.js"></script>
+  </head>
+  <body>
+
+    <h2>Patterns</h2>
+    <p>List of configured URL patterns.</p>
+    <table id="tblPatterns" class="patterns"></table>
+    <div id="actions" class="actions">
+      <button id="cmdAddNew" type="button" title="Add new pattern">&#x271A;</button>
+      <button id="cmdSave" type="button" title="Save configuration">Save</button>
+    </div>
+
+    <!-- pattern item template -->
+    <template id="itemTemplate">
+      <tbody class="itemTemplateBody pattern">
+        <tr>
+          <td class="label">Pattern</td>
+          <td class="value" colspan="2">
+            <input type="text" class="field field-pattern" placeholder="URL pattern that will cause its tab to be pinned">
+          </td>
+        </tr>
+        <tr>
+          <td class="label">Enabled</td>
+          <td class="value" colspan="2"><input type="checkbox" class="field-enabled" checked="checked"></td>
+        </tr>
+        <tr>
+          <td class="label">Regular expression</td>
+          <td class="value">
+            <input type="checkbox" class="field-isRegex">
+          </td>
+          <td class="actions">
+            <button type="button" class="cmdDelete" title="Delete rule">&#x2718;</button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="2" class="pattern-error hidden"></td>
+        </tr>
+      </tbody>
+    </template>
+
+    <!-- no patterns template -->
+    <template id="itemTemplateEmpty">
+      <tbody class="itemTemplateBody nopatterns">
+        <tr>
+          <td>No patterns defined</td>
+        </tr>
+      </tbody>
+    </template>
+
+  </body>
+</html>

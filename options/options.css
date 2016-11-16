@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+  padding:0;
+  margin:0;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: normal;
+  clear: both;
+}
+
+a, a:visited {
+  color: highlight;
+}
+
+p {
+  margin: .5em 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.patterns {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+.pattern {
+  display: block;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin: .5em 0;
+  padding: .5em;
+  background-color: #f5f5f5;
+}
+label,
+.pattern .label {
+  padding-right: 1em;
+  white-space: nowrap;
+}
+.pattern .value {
+  width: 100%;
+  padding: .1em 0;
+}
+.pattern .field {
+  width: 100%;
+  font-family: monospace !important;
+}
+.pattern .field-ruleId {
+  width: auto;
+  font-weight: bold;
+}
+
+.actions {
+  text-align: right;
+}
+.actions button {
+  padding: 0 .4em;
+  margin-left: .2em;
+}
+
+input[type="checkbox"] {
+  opacity: 1;
+  width: auto;
+  position: relative;
+  pointer-events: auto;
+  margin: 0 .5em;
+}
+
+.error,
+.pattern-error {
+  color: #F00;
+}
+
+input.pattern-error {
+  border: 2px solid #F00;
+}
