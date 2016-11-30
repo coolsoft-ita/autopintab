@@ -62,14 +62,6 @@ browser.tabs.query({currentWindow: true, active: true}).then(
 );
 
 
-/**
- * Save patterns to settings, sorting them and removing empty and duplicate values.
- */
-function SavePatterns(newPatterns) {
-  browser.storage.local.set({patterns: newPatterns});
-}
-
-
 /********************************************************
  * Tab management
  ********************************************************/
@@ -220,64 +212,4 @@ function BuildContextMenu() {
     parentId: "mainMenu",
     onclick: function(){chrome.runtime.openOptionsPage();}
   });
-}
-
-
-/**
- * @classdesc Describes a Pattern rule
- * @class
- */
-function Pattern(pattern = '', isRegex = false) {
-
-  /**
-   * Rule pattern, could be a simple string or a regular expression
-   *
-   * @type {string}
-   */
-  this.pattern = pattern;
-
-  /**
-   * True if the pattern property describes a regular expression
-   *
-   * @type {boolean}
-   */
-  this.isRegex = isRegex;
-
-  /**
-   * Enabled state of the pattern
-   *
-   * @type {boolean}
-   */
-  this.enabled = true;
-
-
-  /**
-   * Validate the rule.
-   * Returns true if the rule is valid, otherwise returns an object
-   * fields error descriptions keyed by field name:
-   * { "urlPattern": "Can't be empty" }
-   *
-   * @returns {array}
-   */
-  this.Validate = function() {
-    var errors = {};
-    if (!this.pattern)   errors["pattern"] = "Pattern field cannot be empty";
-    // test RegExp validity
-    if (this.isRegex) {
-      try {
-        new RegExp(this.pattern);
-      }
-      catch(e) {
-        errors["pattern"] = "Pattern is not a valid regular expression: " + e.message;
-      }
-    }
-    // do we have any error?
-    if (Object.keys(errors).length !== 0) {
-      return errors;
-    }
-    else {
-      return true;
-    }
-  };
-
 }

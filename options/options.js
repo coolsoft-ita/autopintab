@@ -17,9 +17,6 @@
 
 $(function(){
 
-  // reference to background page
-  var bgPage = chrome.extension.getBackgroundPage();
-
   // fields
   var tblPatterns = $('#tblPatterns');
 
@@ -32,8 +29,8 @@ $(function(){
   });
 
   // attach events to UI elements
-  $('#cmdSave').click(SavePatterns);
-  $('#cmdAddNew').click(AddNewPattern);
+  $('#cmdSave').click(Save);
+  $('#cmdAddNew').click(AddNew);
 
 
   /**
@@ -69,12 +66,12 @@ $(function(){
   /**
    * Add a new pattern element to list
    */
-  function AddNewPattern() {
+  function AddNew() {
     // remove the .nopatterns-tag item, if exists
     tblPatterns.children('.nopatterns').remove();
     // add the new pattern
     var patternId = 'pattern_' + new Date().getTime();
-    var $newPatternItem = Pattern2HTML(patternId, new bgPage.Pattern());
+    var $newPatternItem = Pattern2HTML(patternId, new Pattern());
     tblPatterns.append($newPatternItem);
     // give focus to the newly added pattern
     $newPatternItem.find('.field-pattern').focus().select();
@@ -84,7 +81,7 @@ $(function(){
   /**
    * Saves the patterns to settings.
    */
-  function SavePatterns() {
+  function Save() {
 
     // build a new patterns collection
     var errorsFound = false;
@@ -107,7 +104,7 @@ $(function(){
 
     if (!errorsFound) {
       // save patterns (it will refresh the list)
-      bgPage.SavePatterns(patterns);
+      SavePatterns(patterns);
     }
 
   }
@@ -161,7 +158,7 @@ $(function(){
    * @returns {Pattern}
    */
   function HTML2Pattern(htmlItem) {
-    var pattern = new bgPage.Pattern();
+    var pattern = new Pattern();
     for (fieldName of Object.keys(pattern)) {
       let $elem = htmlItem.find('.field-' + fieldName);
       if ($elem.length) {
