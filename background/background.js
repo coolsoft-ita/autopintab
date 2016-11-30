@@ -52,7 +52,7 @@ chrome.storage.onChanged.addListener(function(changes){
 /**
  * First update of context menu items
  */
-browser.tabs.query({active: true}).then(
+browser.tabs.query({currentWindow: true, active: true}).then(
   function(tabs){
     // tabs should have only one item
     for (tab of tabs) {
@@ -120,8 +120,8 @@ function IsPinnable(url) {
  * Utils
  ********************************************************/
 function GetHostname(url) {
-  var match = url.match(/https?:\/\/.*?\//);
-  return (match && match.length > 0) ? match[0] : '';
+  var match = url.match(/^\w*:\/\/.*?\/|about:.*/ig);
+  return (match && match.length > 0) ? match[0] : url;
 }
 
 
@@ -155,12 +155,10 @@ function RefreshContextMenu(url) {
     var enabled = !IsPinnable(url)
     browser.contextMenus.update("pinUrl", {
       title: "Auto pin \"" + url + "\"",
-      enabled: enabled,
     });
     var hostname = GetHostname(url);
     browser.contextMenus.update("pinHost", {
       title: "Auto pin \"" + hostname + "*\"",
-      enabled: hostname && enabled,
     });
   }
 }
@@ -178,11 +176,10 @@ function BuildContextMenu() {
   browser.contextMenus.create({
     id: "pinUrl",
     title: "...",
-    enabled: false,
     contexts: ["all"],
     parentId: "mainMenu",
     onclick: function(){
-      browser.tabs.query({active: true}).then(function(tabs){
+      browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
         // keep only the first element of the returned array
         if (tabs.length) {
           RefreshContextMenu(tabs[0].url);
@@ -195,11 +192,10 @@ function BuildContextMenu() {
   browser.contextMenus.create({
     id: "pinHost",
     title: "...",
-    enabled: false,
     contexts: ["all"],
     parentId: "mainMenu",
     onclick: function(){
-      browser.tabs.query({active: true}).then(function(tabs){
+      browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
         // keep only the first element of the returned array
         if (tabs.length) {
           var url = tabs[0].url;
