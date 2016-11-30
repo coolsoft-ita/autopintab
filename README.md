@@ -9,27 +9,34 @@ pattern like `^https?\/\/www\.google\.com\/`.
 
 Installation
 ------------
-Standard AutoPinTab releases must be installed through [Firefox Addons website](https://addons.mozilla.org/).
+Official (signed) AutoPinTab releases must be installed through
+[Firefox Addons website](https://addons.mozilla.org/firefox/addon/autopintab/).
 
-Development (unsigned) releases requires some manual steps:
+Development releases are **unsigned** so they requires some manual steps to be loaded on Firefox standard edition:
 - clone extension [GIT repository](https://github.com/coolsoft-ita/autopintab.git) to a local folder
 - open `about:debugging` on Firefox
 - click "Load Temporary Add-on" button and select `manifest.json` from cloned source files
 
-**NOTE:** the development version will be loaded temporarily, so it must be reloaded again each time you restart your browser.
+To avoid these steps you can install Firefox Developer edition
+(it can be installed syde-by-side with standard edition)
+
+**NOTE:** the unsigned AutoPinTab release will be loaded temporarily,
+so it must be reloaded again each time you restart your browser.
 
 Usage
 -----
-Open a tab you want to be automatically pinned, right-click on its content and select the new AutoPinTab context menu item.
+Open a tab you want to be automatically pinned, right-click on its content and
+select the new AutoPinTab context menu item.
 
 This menu contains items to quickly add current URL to your AutoPinTab patterns.  
 **NOTE:** a disabled item means that the tab is already auto-pinned.
 
-Once added you can reload the tab (or open a new one) and check if it gets pinned automatically.
+Once added you can reload the tab (or open a new one) and check if it gets
+pinned automatically.
 
 Licensing
 ---------
-AutoPinTab is open source software, licensed under MPL.  
+AutoPinTab is open source software, licensed under GPLv3.  
 Source code is available here: https://github.com/coolsoft-ita/autopintab.git
 
 If you like it, feel free to support its development:
