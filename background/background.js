@@ -21,6 +21,9 @@
  */
 var patterns = [];
 
+// build context menu
+BuildContextMenu();
+
 
 /********************************************************
  * Settings management
@@ -44,6 +47,19 @@ browser.storage.local.get('patterns', function(settings){
 chrome.storage.onChanged.addListener(function(changes){
   patterns = changes.patterns.newValue;
 });
+
+
+/**
+ * First update of context menu items
+ */
+browser.tabs.query({active: true}).then(
+  function(tabs){
+    // tabs should have only one item
+    for (tab of tabs) {
+      RefreshContextMenu(tab.url);
+    }
+  }
+);
 
 
 /**
@@ -150,61 +166,65 @@ function RefreshContextMenu(url) {
 }
 
 
-// Initial menu creation
-browser.contextMenus.create({
-  id: "mainMenu",
-  title: "AutoPinTab",
-  contexts: ["all"]
-});
-browser.contextMenus.create({
-  id: "pinUrl",
-  title: "...",
-  enabled: false,
-  contexts: ["all"],
-  parentId: "mainMenu",
-  onclick: function(){
-    browser.tabs.query({active: true}).then(function(tabs){
-      // keep only the first element of the returned array
-      if (tabs.length) {
-        RefreshContextMenu(tabs[0].url);
-        patterns.push(new Pattern(tabs[0].url, false));
-        SavePatterns(patterns);
-      }
-    });
-  }
-});
-browser.contextMenus.create({
-  id: "pinHost",
-  title: "...",
-  enabled: false,
-  contexts: ["all"],
-  parentId: "mainMenu",
-  onclick: function(){
-    browser.tabs.query({active: true}).then(function(tabs){
-      // keep only the first element of the returned array
-      if (tabs.length) {
-        var url = tabs[0].url;
-        var hostname = "^" + GetHostname(url).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-        RefreshContextMenu(url);
-        patterns.push(new Pattern(hostname, true));
-        SavePatterns(patterns);
-      }
-    });
-  }
-});
-browser.contextMenus.create({
-  id: "sep1",
-  contexts: ["all"],
-  type: "separator",
-  parentId: "mainMenu",
-});
-browser.contextMenus.create({
-  id: "optionsMenu",
-  title: "Options...",
-  contexts: ["all"],
-  parentId: "mainMenu",
-  onclick: function(){chrome.runtime.openOptionsPage();}
-});
+/**
+ * Build context menu structure
+ */
+function BuildContextMenu() {
+  browser.contextMenus.create({
+    id: "mainMenu",
+    title: "AutoPinTab",
+    contexts: ["all"]
+  });
+  browser.contextMenus.create({
+    id: "pinUrl",
+    title: "...",
+    enabled: false,
+    contexts: ["all"],
+    parentId: "mainMenu",
+    onclick: function(){
+      browser.tabs.query({active: true}).then(function(tabs){
+        // keep only the first element of the returned array
+        if (tabs.length) {
+          RefreshContextMenu(tabs[0].url);
+          patterns.push(new Pattern(tabs[0].url, false));
+          SavePatterns(patterns);
+        }
+      });
+    }
+  });
+  browser.contextMenus.create({
+    id: "pinHost",
+    title: "...",
+    enabled: false,
+    contexts: ["all"],
+    parentId: "mainMenu",
+    onclick: function(){
+      browser.tabs.query({active: true}).then(function(tabs){
+        // keep only the first element of the returned array
+        if (tabs.length) {
+          var url = tabs[0].url;
+          var hostname = "^" + GetHostname(url).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          RefreshContextMenu(url);
+          patterns.push(new Pattern(hostname, true));
+          SavePatterns(patterns);
+        }
+      });
+    }
+  });
+  browser.contextMenus.create({
+    id: "sep1",
+    contexts: ["all"],
+    type: "separator",
+    parentId: "mainMenu",
+  });
+  browser.contextMenus.create({
+    id: "optionsMenu",
+    title: "Options...",
+    contexts: ["all"],
+    parentId: "mainMenu",
+    onclick: function(){chrome.runtime.openOptionsPage();}
+  });
+}
 
 
 /**
