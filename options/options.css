@@ -64,7 +64,6 @@ label,
 
 input[type="checkbox"] {
   opacity: 1;
-  width: auto;
   position: relative;
   pointer-events: auto;
   margin: 0 .5em;

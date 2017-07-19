@@ -47,3 +47,12 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
   Great multipurpose JS library
 - [Flat icons P2 by Solidicons](http://www.myiconfinder.com/icon/color-colour-svg-png-eps-base-isoicons-map-marker-pin-thumb-push-workspace-thumb-pin/1110)  
   Extension icon
+
+Changelog
+---------
+
+## v.1.0.1 - 2017-07-19
+- Fixed CSS that caused options dialog checkboxes to disappear.
+
+## v.1.0.0 - 2016-11-30
+- First release.
