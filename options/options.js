@@ -144,9 +144,7 @@ $(function(){
     }
     // delete button
     $template.find('.cmdDelete').click(function(){
-      if (confirm('Delete this pattern?')) {
-        $(this).closest('tbody').remove();
-      }
+      $(this).closest('tbody').remove();
     });
     return $template;
   }
