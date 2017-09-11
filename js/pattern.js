@@ -59,25 +59,28 @@ function Pattern(pattern = '', isRegex = false) {
    *
    * @returns {array}
    */
-  this.Validate = function() {
-    var errors = {};
-    if (!this.pattern)   errors["pattern"] = "Pattern field cannot be empty";
-    // test RegExp validity
-    if (this.isRegex) {
-      try {
-        new RegExp(this.pattern);
+  Object.defineProperty(this, 'Validate', {
+    enumerable: false,
+    value: function () {
+      var errors = {};
+      if (!this.pattern)   errors["pattern"] = "Pattern field cannot be empty";
+      // test RegExp validity
+      if (this.isRegex) {
+        try {
+          new RegExp(this.pattern);
+        }
+        catch(e) {
+          errors["pattern"] = "Pattern is not a valid regular expression: " + e.message;
+        }
       }
-      catch(e) {
-        errors["pattern"] = "Pattern is not a valid regular expression: " + e.message;
+      // do we have any error?
+      if (Object.keys(errors).length !== 0) {
+        return errors;
+      }
+      else {
+        return true;
       }
     }
-    // do we have any error?
-    if (Object.keys(errors).length !== 0) {
-      return errors;
-    }
-    else {
-      return true;
-    }
-  };
+  });
 
 }
