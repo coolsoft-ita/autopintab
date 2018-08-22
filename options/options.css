@@ -60,13 +60,17 @@ label,
 .actions button {
   padding: 0 .4em;
   margin-left: .2em;
+  min-width: unset;
+}
+.cmdDelete {
+  background-color: red;
+  color: white;
 }
 
 input[type="checkbox"] {
   opacity: 1;
   position: relative;
   pointer-events: auto;
-  margin: 0 .5em;
 }
 
 .error,
