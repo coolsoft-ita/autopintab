@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Claudio Nicora <coolsoft.ita@gmail.com>
+ * Copyright (C) 2018 Claudio Nicora <coolsoft.ita@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 $(function(){
 
   // fields
-  var tblPatterns = $('#tblPatterns');
+  let patternsContainer = $('table.patterns tbody');
 
   // load settings and update patterns list
   chrome.storage.local.get('patterns', function(settings){
@@ -37,13 +37,13 @@ $(function(){
    * Validate an HTML pattern item, add error messages/classes and returns true
    * if the pattern definition is valid, false otherwise.
    *
-   * @returns {Pattern} Returns the defined pattern or false;
+   * @returns {Pattern|boolean} Returns the defined pattern or false;
    */
   function ValidateHTMLItem(htmlItem) {
 
-    var itemError = htmlItem.find('.pattern-error');
-    var pattern = HTML2Pattern(htmlItem);
-    var validation = pattern.Validate();
+    let itemError = htmlItem.find('.pattern-error');
+    let pattern = HTML2Pattern(htmlItem);
+    let validation = pattern.Validate();
 
     if (validation !== true) {
       $.each(validation, function(fieldName, errorText){
@@ -68,11 +68,11 @@ $(function(){
    */
   function AddNew() {
     // remove the .nopatterns-tag item, if exists
-    tblPatterns.children('.nopatterns').remove();
+    patternsContainer.children('.nopatterns').remove();
     // add the new pattern
-    var patternId = 'pattern_' + new Date().getTime();
-    var $newPatternItem = Pattern2HTML(patternId, new Pattern());
-    tblPatterns.append($newPatternItem);
+    let patternId = 'pattern_' + new Date().getTime();
+    let $newPatternItem = Pattern2HTML(patternId, new Pattern());
+    patternsContainer.append($newPatternItem);
     // give focus to the newly added pattern
     $newPatternItem.find('.field-pattern').focus().select();
   }
@@ -84,14 +84,13 @@ $(function(){
   function Save() {
 
     // build a new patterns collection
-    var errorsFound = false;
-    var patterns = [];
+    let errorsFound = false;
+    let patterns = [];
 
     // scan pattern HTML items and build patterns
-    var res = $('.patterns tbody.pattern');
-    $('.patterns tbody.pattern').each(function(){
-      var item = $(this);
-      var pattern = ValidateHTMLItem(item);
+    patternsContainer.find('tr').each(function(){
+      let item = $(this);
+      let pattern = ValidateHTMLItem(item);
       if (pattern === false) {
         // if the pattern is invalid won't save
         errorsFound = true;
@@ -116,13 +115,13 @@ $(function(){
    */
   function UpdatePatternsList(patterns) {
     // cleanup
-    tblPatterns.find('tbody').remove();
+    patternsContainer.children().remove();
     // fill data
-    for (pattern of patterns) {
-      tblPatterns.append(Pattern2HTML(pattern));
+    for (let pattern of patterns) {
+      patternsContainer.append(Pattern2HTML(pattern));
     }
-    if (tblPatterns.children().length == 0) {
-      tblPatterns.append($('#itemTemplateEmpty').html());
+    if (patternsContainer.children().length == 0) {
+      patternsContainer.append($('#itemTemplateEmpty').html());
     }
   }
 
@@ -132,9 +131,9 @@ $(function(){
    * or an empty (new) pattern element.
    */
   function Pattern2HTML(pattern) {
-    var $template = $($('#itemTemplate').html());
-    for (fieldName of Object.keys(pattern)) {
-      var $elem = $template.find('.field-' + fieldName).first();
+    let $template = $($('#itemTemplate').html());
+    for (let fieldName of Object.keys(pattern)) {
+      let $elem = $template.find('.field-' + fieldName).first();
       if ($elem.is(':checkbox')) {
         $elem.prop('checked', pattern[fieldName]);
       }
@@ -144,7 +143,7 @@ $(function(){
     }
     // delete button
     $template.find('.cmdDelete').click(function(){
-      $(this).closest('tbody').remove();
+      $(this).closest('tr').remove();
     });
     return $template;
   }
@@ -156,8 +155,8 @@ $(function(){
    * @returns {Pattern}
    */
   function HTML2Pattern(htmlItem) {
-    var pattern = new Pattern();
-    for (fieldName of Object.keys(pattern)) {
+    let pattern = new Pattern();
+    for (let fieldName of Object.keys(pattern)) {
       let $elem = htmlItem.find('.field-' + fieldName);
       if ($elem.length) {
         if ($elem.is(':checkbox')) {

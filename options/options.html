@@ -12,7 +12,15 @@
 
     <h2>Patterns</h2>
     <p>List of configured URL patterns.</p>
-    <table id="tblPatterns" class="patterns"></table>
+    <table id="tblPatterns" class="patterns">
+      <thead>
+        <th class="value-header">Enabled</th>
+        <th class="value-header">RegEx</th>
+        <th class="value-header">Pattern</th>
+        <th class="value-header"></th>
+      </thead>
+      <tbody></tbody>
+    </table>
     <div id="actions" class="actions">
       <button id="cmdAddNew" type="button" title="Add new pattern">&#x271A;</button>
       <button id="cmdSave" type="button" title="Save configuration">Save</button>
@@ -20,40 +28,28 @@
 
     <!-- pattern item template -->
     <template id="itemTemplate">
-      <tbody class="itemTemplateBody pattern">
-        <tr>
-          <td class="label">Pattern</td>
-          <td class="value" colspan="2">
-            <input type="text" class="field field-pattern" placeholder="URL pattern that will cause its tab to be pinned">
-          </td>
-        </tr>
-        <tr>
-          <td class="label">Enabled</td>
-          <td class="value" colspan="2"><input type="checkbox" class="field-enabled" checked="checked"></td>
-        </tr>
-        <tr>
-          <td class="label">Regular expression</td>
-          <td class="value">
-            <input type="checkbox" class="field-isRegex">
-          </td>
-          <td class="actions">
-            <button type="button" class="cmdDelete" title="Delete rule">&#x2718;</button>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td colspan="2" class="pattern-error hidden"></td>
-        </tr>
-      </tbody>
+      <tr>
+        <td class="value">
+          <input type="checkbox" class="field-enabled" checked="checked">
+        </td>
+        <td class="value">
+          <input type="checkbox" class="field-isRegex">
+        </td>
+        <td class="value value-max-width">
+          <input type="text" class="field field-pattern" placeholder="URL pattern that will cause its tab to be pinned">
+          <p class="pattern-error hidden"></p>
+        </td>
+        <td class="actions">
+          <button type="button" class="cmdDelete" title="Delete pattern">&#x2718;</button>
+        </td>
+      </tr>
     </template>
 
     <!-- no patterns template -->
     <template id="itemTemplateEmpty">
-      <tbody class="itemTemplateBody nopatterns">
-        <tr>
-          <td>No patterns defined</td>
-        </tr>
-      </tbody>
+      <tr class="nopatterns">
+        <td colspan="4">No patterns defined</td>
+      </tr>
     </template>
 
   </body>

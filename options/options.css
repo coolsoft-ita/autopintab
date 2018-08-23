@@ -22,30 +22,50 @@ p {
   display: none;
 }
 
-.patterns {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1em;
-}
-
-.pattern {
-  display: block;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  margin: .5em 0;
-  padding: .5em;
-  background-color: #f5f5f5;
-}
 label,
-.pattern .label {
+.label {
   padding-right: 1em;
   white-space: nowrap;
 }
-.pattern .value {
-  width: 100%;
-  padding: .1em 0;
+/**
+ * Items table
+ */
+.patterns {
+  width: 99.9%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
 }
-.pattern .field {
+.patterns {
+  border: 1px solid lightgray;
+}
+.patterns thead {
+  background-color: lightgrey;
+  font-weight: bold;
+}
+.patterns thead th {
+  padding: .8em .3em;
+}
+.patterns tbody:before {
+  line-height: .8em;
+  content: "\200C";
+  display: block;
+}
+.patterns tbody {
+  padding-top: 1em;
+}
+.patterns tbody td {
+  padding: .1em .3em;
+}
+.patterns tbody tr:hover {
+  background-color: lightsteelblue;
+}
+.value {
+  width: 0%;
+}
+.value-max-width {
+  width: 100%;
+}
+.field {
   width: 100%;
   font-family: monospace !important;
 }
