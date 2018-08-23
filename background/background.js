@@ -171,8 +171,8 @@ function BuildContextMenu() {
       browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
         // keep only the first element of the returned array
         if (tabs.length) {
-          var url = tabs[0].url;
-          var hostname = "^" + GetHostname(url).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          let url = tabs[0].url;
+          let hostname = "^" + GetHostname(url).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
           patterns.push(new Pattern(hostname, true));
           SavePatterns(patterns);
         }
