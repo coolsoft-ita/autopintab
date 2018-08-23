@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Claudio Nicora <coolsoft.ita@gmail.com>
+ * Copyright (C) 2018 Claudio Nicora <coolsoft.ita@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,8 +62,10 @@ function Pattern(pattern = '', isRegex = false) {
   Object.defineProperty(this, 'Validate', {
     enumerable: false,
     value: function () {
-      var errors = {};
-      if (!this.pattern)   errors["pattern"] = "Pattern field cannot be empty";
+      let errors = {};
+      if (!this.pattern) {
+        errors["pattern"] = "Pattern field cannot be empty";
+      }
       // test RegExp validity
       if (this.isRegex) {
         try {
