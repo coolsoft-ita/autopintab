@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Claudio Nicora <coolsoft.ita@gmail.com>
+ * Copyright (C) 2018 Claudio Nicora <coolsoft.ita@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,19 +49,6 @@ chrome.storage.onChanged.addListener(function(changes){
 });
 
 
-/**
- * First update of context menu items
- */
-browser.tabs.query({currentWindow: true, active: true}).then(
-  function(tabs){
-    // tabs should have only one item
-    for (tab of tabs) {
-      RefreshContextMenu(tab.url);
-    }
-  }
-);
-
-
 /********************************************************
  * Tab management
  ********************************************************/
@@ -77,43 +64,36 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tabInfo) {
   }
 });
 
-// intercept tab switching
-browser.tabs.onActivated.addListener(TabActivatedHandler);
 
+/********************************************************
+ * Utils
+ ********************************************************/
 
 /**
- * Update context menu status.
+ * Extract the hostname from the given URL.
+ *
+ * @param url URL to test.
+ * @returns {string}
  */
-function TabActivatedHandler(activeInfo) {
-  browser.tabs.get(activeInfo.tabId).then(
-    function(tabInfo){
-      RefreshContextMenu(tabInfo.url);
-    }
-  );
+function GetHostname(url) {
+  let match = url.match(/^\w*:\/\/.*?\/|about:.*|chrome:.*/ig);
+  return (match && match.length > 0) ? match[0] : url;
 }
 
 
 /**
  * Test if the given URL is pinnable.
+ *
  * @param {string} URL to test.
  * @returns {Boolean}
  */
 function IsPinnable(url) {
-  for (pattern of patterns) {
+  for (let pattern of patterns) {
     if (Matches(pattern, url)) {
       return true;
     }
   }
   return false;
-}
-
-
-/********************************************************
- * Utils
- ********************************************************/
-function GetHostname(url) {
-  var match = url.match(/^\w*:\/\/.*?\/|about:.*/ig);
-  return (match && match.length > 0) ? match[0] : url;
 }
 
 
@@ -137,23 +117,25 @@ function Matches(pattern, url) {
 
 
 /********************************************************
- * Tab management
+ * Context menu management
  ********************************************************/
+
 /**
- * Refresh context menu state
+ * Refresh context menu state when the menu is opened
  */
-function RefreshContextMenu(url) {
-  if (url) {
-    var enabled = !IsPinnable(url)
+browser.contextMenus.onShown.addListener(async function(info, tab) {
+  if (tab.url) {
     browser.contextMenus.update("pinUrl", {
-      title: "Auto pin \"" + url + "\"",
+      title: "Auto pin \"" + tab.url + "\"",
     });
-    var hostname = GetHostname(url);
+    let hostname = GetHostname(tab.url);
     browser.contextMenus.update("pinHost", {
       title: "Auto pin \"" + hostname + "*\"",
     });
+    // force redraw of menu items (the popup menu was already shown)
+    browser.contextMenus.refresh();
   }
-}
+});
 
 
 /**
@@ -174,7 +156,6 @@ function BuildContextMenu() {
       browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
         // keep only the first element of the returned array
         if (tabs.length) {
-          RefreshContextMenu(tabs[0].url);
           patterns.push(new Pattern(tabs[0].url, false));
           SavePatterns(patterns);
         }
@@ -192,7 +173,6 @@ function BuildContextMenu() {
         if (tabs.length) {
           var url = tabs[0].url;
           var hostname = "^" + GetHostname(url).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-          RefreshContextMenu(url);
           patterns.push(new Pattern(hostname, true));
           SavePatterns(patterns);
         }
