@@ -1,11 +1,11 @@
 AutoPinTab extension
 ====================
-This Firefox extension will automatically pin new tabs based on their URL.
+Firefox extension that automatically pins new tabs based on their URL.
 
 To decide the tabs to automatically pin, user must define a set of patterns.  
 A pattern could be a plain text URL (like `http://www.google.com`) or a
 JavaScript [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_regular_expression_pattern)
-pattern like `^https?\/\/www\.google\.com\/`.
+pattern like `^https?//www\.google\.com/`.
 
 Installation
 ------------
@@ -21,7 +21,7 @@ To avoid these steps you can install Firefox Developer edition
 (it can be installed syde-by-side with standard edition)
 
 **NOTE:** the unsigned AutoPinTab release will be loaded temporarily,
-so it must be reloaded again each time you restart your browser.
+so it must be reloaded each time you restart the browser.
 
 Usage
 -----
@@ -29,10 +29,8 @@ Open a tab you want to be automatically pinned, right-click on its content and
 select the new AutoPinTab context menu item.
 
 This menu contains items to quickly add current URL to your AutoPinTab patterns.  
-**NOTE:** a disabled item means that the tab is already auto-pinned.
 
-Once added you can reload the tab (or open a new one) and check if it gets
-pinned automatically.
+Now reload the tab (or open a new one) and check if it gets pinned automatically.
 
 Licensing
 ---------
@@ -50,6 +48,10 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 
 Changelog
 ---------
+
+## v.1.1.0 - 2018-08-23
+- Options dialog now show patterns in a table.
+- Fixed context menu items not always updating.
 
 ## v.1.0.1 - 2017-07-19
 - Fixed CSS that caused options dialog checkboxes to disappear.
