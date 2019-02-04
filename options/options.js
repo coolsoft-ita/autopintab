@@ -29,8 +29,8 @@
   });
 
   // attach events to UI elements
-  document.getElementById("cmdSave").onclick = Save
-  document.getElementById("cmdAddNew").onclick = AddNew
+  document.getElementById("cmdSave").onclick = Save;
+  document.getElementById("cmdAddNew").onclick = AddNew;
 
   /**
    * Validate an HTML pattern item, add error messages/classes and returns true
@@ -70,7 +70,7 @@
     let $newPatternItem = Pattern2HTML(patternId, new Pattern());
     patternsContainer.appendChild($newPatternItem);
     // give focus to the newly added pattern
-    patternsContainer.querySelector('tr:last-child .field-pattern').focus()
+    patternsContainer.querySelector('tr:last-child .field-pattern').focus();
   }
 
 
@@ -84,7 +84,7 @@
     let patterns = [];
 
     // scan pattern HTML items and build patterns
-    patternsContainer.querySelectorAll('tr:not(.nopatterns)').forEach(function(item){
+    patternsContainer.querySelectorAll('tr:not(.nopatterns)').forEach(function(item) {
       let pattern = ValidateHTMLItem(item);
       if (pattern === false) {
         // if the pattern is invalid won't save
