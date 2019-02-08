@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function(){
+(function(){
 
   // fields
-  let patternsContainer = $('table.patterns tbody');
+  let patternsContainer = document.querySelector('table.patterns tbody');
 
   // load settings and update patterns list
   chrome.storage.local.get('patterns', function(settings){
@@ -29,9 +29,8 @@ $(function(){
   });
 
   // attach events to UI elements
-  $('#cmdSave').click(Save);
-  $('#cmdAddNew').click(AddNew);
-
+  document.getElementById("cmdSave").onclick = Save;
+  document.getElementById("cmdAddNew").onclick = AddNew;
 
   /**
    * Validate an HTML pattern item, add error messages/classes and returns true
@@ -40,24 +39,24 @@ $(function(){
    * @returns {Pattern|boolean} Returns the defined pattern or false;
    */
   function ValidateHTMLItem(htmlItem) {
-
-    let itemError = htmlItem.find('.pattern-error');
+    let itemError = htmlItem.querySelector('.pattern-error');
     let pattern = HTML2Pattern(htmlItem);
     let validation = pattern.Validate();
 
     if (validation !== true) {
-      $.each(validation, function(fieldName, errorText){
-        htmlItem.find('input.field-'+fieldName).addClass('pattern-error');
-        itemError.html(itemError.html() + '<div>' + errorText + '</div>');
-        itemError.show();
-      });
+      for (let fieldName of Object.keys(validation)) {
+        let errorText = validation[fieldName];
+        htmlItem.querySelector('input.field-'+fieldName).classList.add('pattern-error');
+        itemError.innerHTML = itemError.innerHTML + '<div>' + errorText + '</div>';
+        itemError.style.display = "block";
+      }
       return false;
     }
     else {
       // reset errors
-      htmlItem.find('input').removeClass('pattern-error');
-      itemError.html('');
-      itemError.hide();
+      htmlItem.querySelector('input').classList.remove('pattern-error');
+      itemError.innerHTML = '';
+      itemError.style.display = "none";
       return pattern;
     }
   }
@@ -67,14 +66,11 @@ $(function(){
    * Add a new pattern element to list
    */
   function AddNew() {
-    // remove the .nopatterns-tag item, if exists
-    patternsContainer.children('.nopatterns').remove();
-    // add the new pattern
     let patternId = 'pattern_' + new Date().getTime();
     let $newPatternItem = Pattern2HTML(patternId, new Pattern());
-    patternsContainer.append($newPatternItem);
+    patternsContainer.appendChild($newPatternItem);
     // give focus to the newly added pattern
-    $newPatternItem.find('.field-pattern').focus().select();
+    patternsContainer.querySelector('tr:last-child .field-pattern').focus();
   }
 
 
@@ -88,8 +84,7 @@ $(function(){
     let patterns = [];
 
     // scan pattern HTML items and build patterns
-    patternsContainer.find('tr').each(function(){
-      let item = $(this);
+    patternsContainer.querySelectorAll('tr:not(.nopatterns)').forEach(function(item) {
       let pattern = ValidateHTMLItem(item);
       if (pattern === false) {
         // if the pattern is invalid won't save
@@ -115,14 +110,14 @@ $(function(){
    */
   function UpdatePatternsList(patterns) {
     // cleanup
-    patternsContainer.children().remove();
+    while (patternsContainer.firstChild) {
+        patternsContainer.removeChild(patternsContainer.firstChild);
+    }
     // fill data
     for (let pattern of patterns) {
-      patternsContainer.append(Pattern2HTML(pattern));
+      patternsContainer.appendChild(Pattern2HTML(pattern));
     }
-    if (patternsContainer.children().length == 0) {
-      patternsContainer.append($('#itemTemplateEmpty').html());
-    }
+    patternsContainer.appendChild(document.importNode(document.getElementById('itemTemplateEmpty').content, true));
   }
 
 
@@ -131,20 +126,21 @@ $(function(){
    * or an empty (new) pattern element.
    */
   function Pattern2HTML(pattern) {
-    let $template = $($('#itemTemplate').html());
+    // let $template = document.importNode(document.getElementById('itemTemplate').content, true);
+    let $template = document.importNode(document.getElementById('itemTemplate').content, true);
     for (let fieldName of Object.keys(pattern)) {
-      let $elem = $template.find('.field-' + fieldName).first();
-      if ($elem.is(':checkbox')) {
-        $elem.prop('checked', pattern[fieldName]);
+      let $elem = $template.querySelector('.field-' + fieldName);
+      if ($elem && $elem.tagName == "INPUT" && $elem.type == "checkbox") {
+        $elem.checked = pattern[fieldName];
       }
-      else {
-        $elem.val(pattern[fieldName]);
+      else if ($elem) {
+        $elem.value = pattern[fieldName];
       }
     }
     // delete button
-    $template.find('.cmdDelete').click(function(){
-      $(this).closest('tr').remove();
-    });
+    $template.querySelector('.cmdDelete').onclick = function(event){
+      event.target.parentNode.parentNode.remove();
+    };
     return $template;
   }
 
@@ -157,17 +153,16 @@ $(function(){
   function HTML2Pattern(htmlItem) {
     let pattern = new Pattern();
     for (let fieldName of Object.keys(pattern)) {
-      let $elem = htmlItem.find('.field-' + fieldName);
-      if ($elem.length) {
-        if ($elem.is(':checkbox')) {
-          pattern[fieldName] = $elem.prop('checked');
-        }
-        else {
-          pattern[fieldName] = $elem.val().trim();
+      let $elem = htmlItem.querySelector('.field-' + fieldName);
+      if ($elem) {
+        if ($elem.tagName == "INPUT" && $elem.type == "checkbox") {
+          pattern[fieldName] = $elem.checked;
+        } else {
+          pattern[fieldName] = $elem.value.trim();
         }
       }
     }
     return pattern;
   }
 
-});
+})();

@@ -101,3 +101,11 @@ input[type="checkbox"] {
 input.pattern-error {
   border: 2px solid #F00;
 }
+
+tr.nopatterns {
+  display: none;
+}
+
+tr.nopatterns:only-child {
+  display: block;
+}
