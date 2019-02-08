@@ -41,8 +41,6 @@ If you like it, feel free to support its development:
 visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **Donate**.
 
 ## Credits
-- [jQuery library](https://jquery.com)  
-  Great multipurpose JS library
 - [Flat icons P2 by Solidicons](http://www.myiconfinder.com/icon/color-colour-svg-png-eps-base-isoicons-map-marker-pin-thumb-push-workspace-thumb-pin/1110)  
   Extension icon
 
