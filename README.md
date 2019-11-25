@@ -13,12 +13,12 @@ Official (signed) AutoPinTab releases must be installed through
 [Firefox Addons website](https://addons.mozilla.org/firefox/addon/autopintab/).
 
 Development releases are **unsigned** so they require some manual steps to be loaded on Firefox standard edition:
-- clone extension [GIT repository](https://github.com/coolsoft-ita/autopintab.git) to a local folder
+- download master branch in a [ZIP archive](https://github.com/coolsoft-ita/autopintab/archive/master.zip), then extract it in a folder of your choice **OR** clone the whole [GIT repository](https://github.com/coolsoft-ita/autopintab.git)
 - open `about:debugging` on Firefox
-- click "Load Temporary Add-on" button and select `manifest.json` from cloned source files
+- click "Load Temporary Add-on" button and select `manifest.json` from extracted/cloned source files
 
 To avoid these steps you can install Firefox Developer edition
-(it can be installed syde-by-side with standard edition)
+(it can be installed side-by-side with standard edition).
 
 **NOTE:** the unsigned AutoPinTab release will be loaded temporarily,
 so it must be reloaded each time you restart the browser.
