@@ -2,12 +2,7 @@
   box-sizing: border-box;
   padding:0;
   margin:0;
-}
-
-h2 {
-  font-size: 1.5em;
-  font-weight: normal;
-  clear: both;
+  color: var(--in-content-text-color);
 }
 
 a, a:visited {
@@ -31,15 +26,17 @@ label,
  * Items table
  */
 .patterns {
-  width: 99.9%;
+  width: 100%;
   border-collapse: collapse;
   margin-bottom: 1em;
 }
-.patterns {
+.patterns,
+.patterns thead {
   border: 1px solid lightgray;
 }
-.patterns thead {
-  background-color: lightgrey;
+.patterns thead * {
+  background-color: var(--in-content-text-color);
+  color: var(--in-content-page-background);
   font-weight: bold;
 }
 .patterns thead th {
@@ -57,7 +54,7 @@ label,
   padding: .1em .3em;
 }
 .patterns tbody tr:hover {
-  background-color: lightsteelblue;
+  background-color: lightgray;
 }
 .value {
   width: 0%;
@@ -82,7 +79,8 @@ label,
   margin-left: .2em;
   min-width: unset;
 }
-.cmdDelete {
+button.cmdDelete,
+button.cmdDelete:hover {
   background-color: red;
   color: white;
 }
