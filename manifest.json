@@ -2,7 +2,7 @@
   "description": "Automatically pins new tabs based on their URL.",
   "manifest_version": 2,
   "name": "AutoPinTab",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage_url": "http://coolsoft.altervista.org/autopintab",
 
   "applications": {

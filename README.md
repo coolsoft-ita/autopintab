@@ -49,6 +49,9 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 Changelog
 ---------
 
+## v.1.1.1 - 2019-11-28
+- Fixed Options page colors when Firefox Dark mode is enabled.
+
 ## v.1.1.0 - 2018-08-23
 - Options dialog now show patterns in a table.
 - Fixed context menu items not always updating.
