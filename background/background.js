@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Claudio Nicora <coolsoft.ita@gmail.com>
+ * Copyright (C) 2019 Claudio Nicora <coolsoft.ita@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +58,8 @@ chrome.storage.onChanged.addListener(function(changes){
  */
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tabInfo) {
   // check if tab URL is included in pinnable URLs
-  if (changeInfo.url && IsPinnable(changeInfo.url)) {
+  newUrl = changeInfo.url || tabInfo.url;
+  if (newUrl && IsPinnable(newUrl)) {
     // set the tab as "pinned"
     browser.tabs.update(tabId, { pinned: true });
   }

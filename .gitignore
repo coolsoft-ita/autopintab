@@ -1,6 +1,4 @@
 docs/
-nbproject/
 setup/
-.vs/
-.idea/
+.*/
 *.zip
