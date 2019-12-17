@@ -4,23 +4,15 @@
     margin:0;
     color: var(--in-content-text-color);
 }
-
 body {
     background-color: var(--in-content-box-background);  
 }
-
 a, a:visited {
     color: highlight;
 }
-
 p {
     margin: .5em 0;
 }
-
-.hidden {
-    display: none;
-}
-
 label,
 .label {
     padding-right: 1em;
@@ -99,12 +91,14 @@ input[type="checkbox"] {
     position: relative;
     pointer-events: auto;
 }
-
 .error,
-.pattern-error {
+.pattern-error,
+.field-error {
     color: #F00;
 }
-
+.field-error {
+  display: none;
+}
 input.pattern-error {
     border: 2px solid #F00;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Claudio Nicora <coolsoft.ita@gmail.com>
+ * Copyright (C) 2019 Claudio Nicora <coolsoft.ita@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  * Save patterns to settings.
  */
 function SavePatterns(newPatterns) {
-  browser.storage.local.set({ patterns: newPatterns });
+    browser.storage.local.set({ patterns: newPatterns });
 }
 
 
@@ -27,62 +27,56 @@ function SavePatterns(newPatterns) {
  * @classdesc Class to describe a Pattern rule
  * @class
  */
-function Pattern(pattern = '', isRegex = false) {
+class Pattern {
 
-  /**
-   * Rule pattern, could be a simple string or a regular expression
-   *
-   * @type {string}
-   */
-  this.pattern = pattern;
-
-  /**
-   * True if the pattern property describes a regular expression
-   *
-   * @type {boolean}
-   */
-  this.isRegex = isRegex;
-
-  /**
-   * Enabled state of the pattern
-   *
-   * @type {boolean}
-   */
-  this.enabled = true;
-
-
-  /**
-   * Validate the rule.
-   * Returns true if the rule is valid, otherwise returns an object
-   * fields error descriptions keyed by field name:
-   * { "urlPattern": "Can't be empty" }
-   *
-   * @returns {array}
-   */
-  Object.defineProperty(this, 'Validate', {
-    enumerable: false,
-    value: function () {
-      let errors = {};
-      if (!this.pattern) {
-        errors["pattern"] = "Pattern field cannot be empty";
-      }
-      // test RegExp validity
-      if (this.isRegex) {
-        try {
-          new RegExp(this.pattern);
-        }
-        catch(e) {
-          errors["pattern"] = "Pattern is not a valid regular expression: " + e.message;
-        }
-      }
-      // do we have any error?
-      if (Object.keys(errors).length !== 0) {
-        return errors;
-      }
-      else {
-        return true;
-      }
+    constructor(pattern = '', isRegex = false) {
+        this.pattern = pattern;
+        this.isRegex = isRegex;
     }
-  });
 
+    /**
+     * Rule pattern, could be a simple string or a regular expression
+     *
+     * @type {string}
+     */
+    pattern = "";
+
+    /**
+     * True if the pattern property describes a regular expression
+     *
+     * @type {boolean}
+     */
+    isRegex = false;
+
+    /**
+     * Enabled state of the pattern
+     *
+     * @type {boolean}
+     */
+    enabled = true;
+
+    /**
+     * Validate the pattern.
+     *
+     * @returns {true|object}
+     * If the pattern is valid returns true, otherwise returns an object with invalid fields errors (key=field name, value=error messages).
+     * (actually only the "pattern" field can raise validation errors...)
+     */
+    Validate() {
+        let errors = {};
+        if (!this.pattern) {
+            errors["pattern"] = "Pattern field cannot be empty";
+        }
+        // test RegExp validity
+        if (this.isRegex) {
+            try {
+                new RegExp(this.pattern);
+            }
+            catch(e) {
+                errors["pattern"] = "Invalid regular expression: " + e.message;
+            }
+        }
+        // do we have any error?
+        return (Object.keys(errors).length !== 0) ? errors : true;
+    }
 }
