@@ -71,7 +71,10 @@ label,
   font-weight: bold;
 }
 
-.actions {
+.actions-left {
+  float: left;
+}
+.actions-right {
   text-align: right;
 }
 .actions button {

@@ -14,8 +14,9 @@
 
   "permissions": [
     "contextMenus",
-    "tabs",
-    "storage"
+    "downloads",
+    "storage",
+    "tabs"
   ],
 
   "icons": {

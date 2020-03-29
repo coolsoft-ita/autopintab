@@ -22,8 +22,15 @@
       <tbody></tbody>
     </table>
     <div id="actions" class="actions">
-      <button id="cmdAddNew" type="button" title="Add new pattern">&#x271A;</button>
-      <button id="cmdSave" type="button" title="Save configuration">Save</button>
+      <div class="actions-left">
+        <input id="importFile" type="file" accept="text/json" style="display:none">
+        <button id="cmdImport" type="button" title="Import configuration">Import</button>
+        <button id="cmdExport" type="button" title="Export configuration">Export</button>
+      </div>
+      <div class="actions-right">
+        <button id="cmdAddNew" type="button" title="Add new pattern">&#x271A;</button>
+        <button id="cmdSave" type="button" title="Save configuration">Save</button>
+      </div>
     </div>
 
     <!-- pattern item template -->
