@@ -49,6 +49,9 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 Changelog
 ---------
 
+## v.1.2.0 - 2020-03-29
+- Added new feature to Import/Export settings.
+
 ## v.1.1.1 - 2019-11-28
 - Fixed Options page colors when Firefox Dark mode is enabled.
 
