@@ -49,6 +49,10 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 Changelog
 ---------
 
+## v.1.2.1 - 2020-05-12
+- Import not working in Firefox-ESR (v.68.x).
+- Minimum Firefox version required increased to 68.
+
 ## v.1.2.0 - 2020-03-29
 - Added new feature to Import/Export settings.
 

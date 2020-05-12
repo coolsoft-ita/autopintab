@@ -121,8 +121,9 @@ $(function () {
                 alert('Need to select a JSON file');
                 return;
             }
-            // read content
-            file.text().then(function (text) {
+
+            // function to import JSON data
+            let doImport = function(text) {
                 let data = JSON.parse(text);
                 // populate new patterns array
                 let newPatterns = [];
@@ -138,7 +139,17 @@ $(function () {
                 }
                 // store the new patterns to settings
                 SavePatterns(newPatterns);
-            });
+            }        
+
+            // Firefox ESR (v68.x) does not have Blob.text() method, so we need a workaround
+            if (typeof Blob.prototype.text != 'undefined') {
+                file.text().then(function(text) { doImport(text); });
+            }
+            else {
+                const reader = new FileReader();
+                reader.addEventListener('loadend', function(e) { doImport(e.srcElement.result); });
+                reader.readAsText(file);
+            }
         }
     }
 
@@ -149,11 +160,11 @@ $(function () {
     function Export() {
         chrome.storage.local.get('patterns', function (settings) {
             // create object URL for JSON data to download
-            var settingsBlob = new Blob([JSON.stringify(settings, null, ' ')], { type: 'text/json' });
+            let settingsBlob = new Blob([JSON.stringify(settings, null, ' ')], { type: 'text/json' });
             let settingsUrl = URL.createObjectURL(settingsBlob);
 
             // download it to user
-            var downloading = chrome.downloads.download({
+            let downloading = chrome.downloads.download({
                 url: settingsUrl,
                 filename: 'autopintab-settings.json',
                 conflictAction: 'overwrite',
