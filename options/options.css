@@ -1,104 +1,110 @@
 * {
-  box-sizing: border-box;
-  padding:0;
-  margin:0;
-  color: var(--in-content-text-color);
+    box-sizing: border-box;
+    padding:0;
+    margin:0;
+    color: var(--in-content-text-color);
+}
+
+body {
+    background-color: var(--in-content-box-background);  
 }
 
 a, a:visited {
-  color: highlight;
+    color: highlight;
 }
 
 p {
-  margin: .5em 0;
+    margin: .5em 0;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 label,
 .label {
-  padding-right: 1em;
-  white-space: nowrap;
+    padding-right: 1em;
+    white-space: nowrap;
 }
 /**
  * Items table
  */
 .patterns {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1em;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+    background-color: var(--in-content-page-background);
 }
 .patterns,
 .patterns thead {
-  border: 1px solid lightgray;
+    border: 1px solid lightgray;
 }
 .patterns thead * {
-  background-color: var(--in-content-text-color);
-  color: var(--in-content-page-background);
-  font-weight: bold;
+    background-color: var(--in-content-text-color);
+    color: var(--in-content-page-background);
+    font-weight: bold;
 }
 .patterns thead th {
-  padding: .8em .3em;
+    padding: .8em .3em;
 }
 .patterns tbody:before {
-  line-height: .8em;
-  content: "\200C";
-  display: block;
+    line-height: .8em;
+    content: "\200C";
+    display: block;
 }
 .patterns tbody {
-  padding-top: 1em;
+    padding-top: 1em;
 }
 .patterns tbody td {
-  padding: .1em .3em;
+    padding: .1em .3em;
 }
 .patterns tbody tr:hover {
-  background-color: lightgray;
+    background-color: var(--in-content-button-background-hover);
 }
 .value {
-  width: 0%;
+    width: 0%;
 }
 .value-max-width {
-  width: 100%;
+    width: 100%;
 }
 .field {
-  width: 100%;
-  font-family: monospace !important;
+    width: 100%;
+    font-family: monospace !important;
 }
 .pattern .field-ruleId {
-  width: auto;
-  font-weight: bold;
+    width: auto;
+    font-weight: bold;
 }
 
 .actions-left {
-  float: left;
+    float: left;
 }
 .actions-right {
-  text-align: right;
+    text-align: right;
 }
 .actions button {
-  padding: 0 .4em;
-  margin-left: .2em;
-  min-width: unset;
+    padding: 0 .4em;
+    margin-left: .2em;
+    min-width: unset;
 }
-button.cmdDelete,
+button.cmdDelete {
+    color: white;
+}
 button.cmdDelete:hover {
-  background-color: red;
-  color: white;
+    background-color: red;
 }
 
 input[type="checkbox"] {
-  opacity: 1;
-  position: relative;
-  pointer-events: auto;
+    opacity: 1;
+    position: relative;
+    pointer-events: auto;
 }
 
 .error,
 .pattern-error {
-  color: #F00;
+    color: #F00;
 }
 
 input.pattern-error {
-  border: 2px solid #F00;
+    border: 2px solid #F00;
 }
