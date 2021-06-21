@@ -186,12 +186,12 @@ function BuildContextMenu() {
     browser.contextMenus.create({
         id: "mainMenu",
         title: "AutoPinTab",
-        contexts: ["all"]
+        contexts: ["all", "tab"]
     });
     browser.contextMenus.create({
         id: "pinUrl",
         title: "...",
-        contexts: ["all"],
+        contexts: ["all", "tab"],
         parentId: "mainMenu",
         onclick: function(){
             browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
@@ -206,7 +206,7 @@ function BuildContextMenu() {
     browser.contextMenus.create({
         id: "pinHost",
         title: "...",
-        contexts: ["all"],
+        contexts: ["all", "tab"],
         parentId: "mainMenu",
         onclick: function(){
             browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
@@ -222,14 +222,14 @@ function BuildContextMenu() {
     });
     browser.contextMenus.create({
         id: "sep1",
-        contexts: ["all"],
+        contexts: ["all", "tab"],
         type: "separator",
         parentId: "mainMenu",
     });
     browser.contextMenus.create({
         id: "optionsMenu",
         title: "Options...",
-        contexts: ["all"],
+        contexts: ["all", "tab"],
         parentId: "mainMenu",
         onclick: function(){chrome.runtime.openOptionsPage();}
     });
