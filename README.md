@@ -49,6 +49,10 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 Changelog
 ---------
 
+## v.1.3.0 - 2021-06-21
+- Pattern order now affects tab pin order: the higher is the pattern (in pattern list), the leftmost will be the pinned tab
+- New feature to reorder patterns in options page by dragging them
+
 ## v.1.2.1 - 2020-05-12
 - Import not working in Firefox-ESR (v.68.x).
 - Minimum Firefox version required increased to 68.
