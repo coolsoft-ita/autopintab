@@ -17,8 +17,8 @@
         <th class="value-header"></th>
         <th class="value-header">Enabled</th>
         <th class="value-header">RegEx</th>
-        <th class="value-header">Priority</th>
         <th class="value-header">Pattern</th>
+        <th class="value-header">Actions</th>
         <th class="value-header"></th>
       </thead>
       <tbody></tbody>
@@ -38,19 +38,21 @@
     <!-- pattern item template -->
     <template id="itemTemplate">
       <tr>
-        <td class="drag-handle">&vellip;</td>
-        <td class="value">
-          <input type="checkbox" class="field-enabled" checked="checked">
+        <td class="value drag-handle" title="Drag this to change pattern (and pinned tabs) order">
+          &vellip;&vellip;
         </td>
         <td class="value">
-          <input type="checkbox" class="field-isRegex">
+          <input type="checkbox" class="field-enabled" checked="checked" title="Enable/disable the pattern">
+        </td>
+        <td class="value">
+          <input type="checkbox" class="field-isRegex" title='If selected then "Pattern" field will be used as a regular expression'>
         </td>
         <td class="value value-max-width">
           <div class="pattern-error field-error hidden"></div>
-          <input type="text" class="field field-pattern" placeholder="URL pattern that will cause its tab to be pinned">
+          <input type="text" class="field field-pattern" placeholder="URL pattern to trigger auto-pin of related tab">
         </td>
         <td class="actions">
-          <button type="button" class="cmdDelete" title="Delete pattern">&#x2718;</button>
+          <button type="button" class="cmdDelete" title="Delete this pattern">&#x2718;</button>
         </td>
       </tr>
     </template>

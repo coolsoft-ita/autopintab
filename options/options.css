@@ -55,6 +55,7 @@ label,
 }
 .value {
     width: 0%;
+    text-align: center;
 }
 .value-max-width {
     width: 100%;
@@ -101,4 +102,7 @@ input[type="checkbox"] {
 }
 input.pattern-error {
     border: 2px solid #F00;
+}
+.drag-handle {
+    min-width: 2em;
 }
