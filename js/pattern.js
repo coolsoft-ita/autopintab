@@ -29,32 +29,28 @@ function SavePatterns(newPatterns) {
  */
 class Pattern {
 
-    constructor(pattern = '', isRegex = false) {
+    constructor(pattern = '', isRegex = false, enabled = true) {
+        /**
+         * Rule pattern, could be a simple string or a regular expression
+         *
+         * @type {string}
+         */
         this.pattern = pattern;
+        /**
+         * True if the pattern property describes a regular expression
+         *
+         * @type {boolean}
+         */
         this.isRegex = isRegex;
+        /**
+         * Enabled state of the pattern
+         *
+         * @type {boolean}
+         */
+        this.enabled = enabled;
     }
 
-    /**
-     * Rule pattern, could be a simple string or a regular expression
-     *
-     * @type {string}
-     */
-    pattern = "";
-
-    /**
-     * True if the pattern property describes a regular expression
-     *
-     * @type {boolean}
-     */
-    isRegex = false;
-
-    /**
-     * Enabled state of the pattern
-     *
-     * @type {boolean}
-     */
-    enabled = true;
-
+    
     /**
      * Validate the pattern.
      *
