@@ -22,7 +22,6 @@ function SavePatterns(newPatterns) {
     browser.storage.local.set({ patterns: newPatterns });
 }
 
-
 /**
  * @classdesc Class to describe a Pattern rule
  * @class

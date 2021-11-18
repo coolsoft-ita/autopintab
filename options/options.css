@@ -68,7 +68,9 @@ label,
     width: auto;
     font-weight: bold;
 }
-
+.actions {
+  margin-top: 16px;
+}
 .actions-left {
     float: left;
 }
@@ -91,6 +93,7 @@ input[type="checkbox"] {
     opacity: 1;
     position: relative;
     pointer-events: auto;
+    vertical-align: middle;
 }
 .error,
 .pattern-error,

@@ -20,6 +20,7 @@
  * @type Pattern[]
  */
 var patterns = [];
+var cfgReorderTabs = false;
 
 /**
  * Tabs priority (key=tabId, value=priority)
@@ -36,21 +37,29 @@ BuildContextMenu();
 /**
  * Initial load
  */
-browser.storage.local.get('patterns', function(settings){
-    if (typeof settings.patterns != 'undefined' && settings.patterns.constructor == Array) {
-        patterns = settings.patterns;
-    }
-    else {
-        patterns = [];
-    }
+browser.storage.local.get(null, settings => {
+
+  patterns =  (typeof settings.patterns != 'undefined' && typeof settings.patterns === 'array')
+    ? settings.patterns
+    : [];
+
+  if (typeof settings[CFG_REORDER_TABS] != 'undefined') {
+    cfgReorderTabs = settings[CFG_REORDER_TABS];
+  }
+
 });
 
 
 /**
  * Attach to settings changes
  */
-chrome.storage.onChanged.addListener(function(changes){
+chrome.storage.onChanged.addListener(changes => {
+  if (typeof changes.patterns != 'undefined' && changes.patterns.constructor == Array) {
     patterns = changes.patterns.newValue;
+  }
+  if (typeof changes[CFG_REORDER_TABS] != 'undefined') {
+    cfgReorderTabs = changes[CFG_REORDER_TABS].newValue;
+  }
 });
 
 
@@ -71,7 +80,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tabInfo) {
         // set the tab as "pinned"
         if (!tabInfo.pinned) {
             browser.tabs.update(tabId, { pinned: true });
-            ReorderPinnedTabs();
+            if (cfgReorderTabs) {
+              ReorderPinnedTabs();
+            }
         }
     }
 });
@@ -79,8 +90,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tabInfo) {
 /**
  * Tab close handler.
  */
-chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
-    tabsOrder.delete(tabId);
+chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+  tabsOrder.delete(tabId);
 });
 
 

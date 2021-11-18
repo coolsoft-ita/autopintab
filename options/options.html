@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css"/>
-    <link rel="stylesheet" href="options.css"/>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
+    <link rel="stylesheet" href="options.css" />
     <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="../js/pattern.js"></script>
+    <script type="text/javascript" src="../js/config.js"></script>
     <script type="text/javascript" src="options.js"></script>
   </head>
   <body>
-
     <h2>Patterns</h2>
     <p>List of configured URL patterns.</p>
     <table id="tblPatterns" class="patterns">
@@ -23,36 +23,66 @@
       </thead>
       <tbody></tbody>
     </table>
+
+    <label for="chkReorderTabs"><input id="chkReorderTabs" type="checkbox" />Reorder pinned tabs (using patterns order)</label>
+
     <div id="actions" class="actions">
       <div class="actions-left">
-        <input id="importFile" type="file" accept="text/json" style="display:none">
-        <button id="cmdImport" type="button" title="Import configuration">Import</button>
-        <button id="cmdExport" type="button" title="Export configuration">Export</button>
+        <input
+          id="importFile"
+          type="file"
+          accept="text/json"
+          style="display: none"
+        />
+        <button id="cmdImport" type="button" title="Import patterns">Import</button>
+        <button id="cmdExport" type="button" title="Export patterns">Export</button>
       </div>
       <div class="actions-right">
-        <button id="cmdAddNew" type="button" title="Add new pattern">&#x271A;</button>
-        <button id="cmdSave" type="button" title="Save configuration">Save</button>
+        <button id="cmdAddNew" type="button" title="Add new pattern">
+          &#x271A;
+        </button>
+        <button id="cmdSave" type="button" title="Save configuration">
+          Save
+        </button>
       </div>
     </div>
 
     <!-- pattern item template -->
     <template id="itemTemplate">
       <tr>
-        <td class="value drag-handle" title="Drag this to change pattern (and pinned tabs) order">
+        <td
+          class="value drag-handle"
+          title="Drag this to change pattern (and pinned tabs) order"
+        >
           &vellip;&vellip;
         </td>
         <td class="value">
-          <input type="checkbox" class="field-enabled" checked="checked" title="Enable/disable the pattern">
+          <input
+            type="checkbox"
+            class="field-enabled"
+            checked="checked"
+            title="Enable/disable the pattern"
+          />
         </td>
         <td class="value">
-          <input type="checkbox" class="field-isRegex" title='If selected then "Pattern" field will be used as a regular expression'>
+          <input
+            type="checkbox"
+            class="field-isRegex"
+            title='If selected then "Pattern" field will be used as a regular expression'
+          />
         </td>
         <td class="value value-max-width">
           <div class="pattern-error field-error hidden"></div>
-          <input type="text" class="field field-pattern" placeholder="URL pattern to trigger auto-pin of related tab">
+          <input
+            type="text"
+            class="field field-pattern"
+            placeholder="URL pattern to trigger auto-pin of related tab"
+          />
         </td>
         <td class="actions">
-          <button type="button" class="cmdDelete" title="Delete this pattern">&#x2718;</button>
+          <button type="button" class="cmdDelete" title="Delete this pattern">
+            &#x2718;
+          </button>
         </td>
       </tr>
     </template>
@@ -63,6 +93,5 @@
         <td colspan="5">No patterns defined</td>
       </tr>
     </template>
-
   </body>
 </html>
