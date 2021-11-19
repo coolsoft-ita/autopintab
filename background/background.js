@@ -39,7 +39,7 @@ BuildContextMenu();
  */
 browser.storage.local.get(null, settings => {
 
-  patterns =  (typeof settings.patterns != 'undefined' && typeof settings.patterns === 'array')
+  patterns =  (typeof settings.patterns != 'undefined' && settings.patterns.constructor == Array)
     ? settings.patterns
     : [];
 

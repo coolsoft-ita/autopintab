@@ -49,6 +49,9 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 Changelog
 ---------
 
+## v.1.3.2 - 2021-11-19
+- Fixed error on pattern loading.
+
 ## v.1.3.1 - 2021-11-19
 - Reorder tab feature (added in 1.3.0) can now be enabled/disabled in options page (and it's disabled by default).
 
