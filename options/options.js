@@ -15,14 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+const SETTINGS_PROPERTIES = ['patterns', CFG_REORDER_TABS];
+
 $(function () {
   // fields
   let patternsContainer = $('table.patterns tbody');
 
   // load settings and update patterns list
-  chrome.storage.local.get('patterns', function (settings) {
+  chrome.storage.local.get(SETTINGS_PROPERTIES, function (settings) {
     UpdatePatternsList(settings.patterns || []);
+    $('#chkReorderTabs').prop('checked', settings[CFG_REORDER_TABS] ?? false);
   });
+
   chrome.storage.onChanged.addListener(changes => {
     if (changes.patterns !== undefined) {
       UpdatePatternsList(changes.patterns.newValue || []);
@@ -127,7 +131,7 @@ $(function () {
         let data = JSON.parse(text);
         // populate new patterns array
         let newPatterns = [];
-        for (id in data.patterns) {
+        for (id in data.patterns ?? []) {
           let srcPattern = data.patterns[id];
           let newPattern = new Pattern();
           for (const key of Object.keys(newPattern)) {
@@ -139,10 +143,13 @@ $(function () {
         }
         // store the new patterns to settings
         SavePatterns(newPatterns);
+        // store "Reorder pinned tabs" setting
+        SaveConfig(CFG_REORDER_TABS, data[CFG_REORDER_TABS] ?? false);
+        $('#chkReorderTabs').prop('checked', data[CFG_REORDER_TABS] ?? false);
       };
 
       // Firefox ESR (v68.x) does not have Blob.text() method, so we need a workaround
-      if (typeof Blob.prototype.text != 'undefined') {
+      if (typeof Blob.prototype.text !== 'undefined') {
         file.text().then(function (text) {
           doImport(text);
         });
@@ -160,7 +167,7 @@ $(function () {
    * Export patterns to JSON file.
    */
   function Export() {
-    chrome.storage.local.get('patterns', function (settings) {
+    chrome.storage.local.get(SETTINGS_PROPERTIES, function (settings) {
       // create object URL for JSON data to download
       let settingsBlob = new Blob([JSON.stringify(settings, null, ' ')], {
         type: 'text/json',
