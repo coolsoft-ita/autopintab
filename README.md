@@ -50,6 +50,10 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 
 ## Changelog
 
+### v.1.3.4 - 2025-02-25
+
+- Wrong host added as pattern when opening context menu on an inactive tab (the active tab host is used instead)
+
 ### v.1.3.3 - 2023-12-22
 
 - Fixed load/save/import/export of "Reorder tabs" configuration option
