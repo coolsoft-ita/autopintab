@@ -23,6 +23,11 @@ var patterns = [];
 var cfgReorderTabs = false;
 
 /**
+ * Current tab (the one that has been right-clicked)
+ */
+var currentTab = null;
+
+/**
  * Tabs priority (key=tabId, value=priority)
  */
 var tabsOrder = new Map();
@@ -30,30 +35,24 @@ var tabsOrder = new Map();
 // build context menu
 BuildContextMenu();
 
-
 /********************************************************
  * Settings management
  ********************************************************/
 /**
  * Initial load
  */
-browser.storage.local.get(null, settings => {
-
-  patterns =  (typeof settings.patterns != 'undefined' && settings.patterns.constructor == Array)
-    ? settings.patterns
-    : [];
+browser.storage.local.get(null, (settings) => {
+  patterns = typeof settings.patterns != 'undefined' && settings.patterns.constructor == Array ? settings.patterns : [];
 
   if (typeof settings[CFG_REORDER_TABS] != 'undefined') {
     cfgReorderTabs = settings[CFG_REORDER_TABS];
   }
-
 });
-
 
 /**
  * Attach to settings changes
  */
-chrome.storage.onChanged.addListener(changes => {
+chrome.storage.onChanged.addListener((changes) => {
   if (typeof changes.patterns != 'undefined' && changes.patterns.constructor == Array) {
     patterns = changes.patterns.newValue;
   }
@@ -62,7 +61,6 @@ chrome.storage.onChanged.addListener(changes => {
   }
 });
 
-
 /********************************************************
  * Tab management
  ********************************************************/
@@ -70,21 +68,21 @@ chrome.storage.onChanged.addListener(changes => {
  * Tab create/update handler.
  * NOTE: can't use onCreated event because it doesn't get the opened tab URL.
  */
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tabInfo) {
-    // check if tab URL is included in pinnable URLs
-    newUrl = changeInfo.url || tabInfo.url;
-    let pattern;
-    if (newUrl && null !== (pattern = IsPinnable(newUrl))) {
-        // store pattern index, will be used to order pinned tabs
-        tabsOrder.set(tabId, patterns.indexOf(pattern));
-        // set the tab as "pinned"
-        if (!tabInfo.pinned) {
-            browser.tabs.update(tabId, { pinned: true });
-            if (cfgReorderTabs) {
-              ReorderPinnedTabs();
-            }
-        }
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabInfo) {
+  // check if tab URL is included in pinnable URLs
+  newUrl = changeInfo.url || tabInfo.url;
+  let pattern;
+  if (newUrl && null !== (pattern = IsPinnable(newUrl))) {
+    // store pattern index, will be used to order pinned tabs
+    tabsOrder.set(tabId, patterns.indexOf(pattern));
+    // set the tab as "pinned"
+    if (!tabInfo.pinned) {
+      browser.tabs.update(tabId, { pinned: true });
+      if (cfgReorderTabs) {
+        ReorderPinnedTabs();
+      }
     }
+  }
 });
 
 /**
@@ -94,27 +92,27 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   tabsOrder.delete(tabId);
 });
 
-
 /**
  * Reorder pinned tab using pattern priority
  */
-function ReorderPinnedTabs()
-{
-    // sort tabsOrder Map by value (was the index of pattern in patterns list)
-    let arr = []
-    tabsOrder.forEach(function(priority, tabId, map){
-        arr.push([ tabId, priority ]);
-    });
-    arr.sort((a, b) => { let x = a[1] - b[1]; return x ? x : a[0] - b[0]; })
-    // list of tabIDs in pattern order
-    let tabIDs = [];
-    for (var elem of arr) {
-        tabIDs.push(elem[0]);
-    }
-    // move tabs
-    browser.tabs.move(tabIDs, { index: 0 });
+function ReorderPinnedTabs() {
+  // sort tabsOrder Map by value (was the index of pattern in patterns list)
+  let arr = [];
+  tabsOrder.forEach(function (priority, tabId, map) {
+    arr.push([tabId, priority]);
+  });
+  arr.sort((a, b) => {
+    let x = a[1] - b[1];
+    return x ? x : a[0] - b[0];
+  });
+  // list of tabIDs in pattern order
+  let tabIDs = [];
+  for (var elem of arr) {
+    tabIDs.push(elem[0]);
+  }
+  // move tabs
+  browser.tabs.move(tabIDs, { index: 0 });
 }
-
 
 /********************************************************
  * Utils
@@ -127,10 +125,9 @@ function ReorderPinnedTabs()
  * @returns {string}
  */
 function GetHostname(url) {
-    let match = url.match(/^\w*:\/\/.*?\/|about:.*|chrome:.*/ig);
-    return (match && match.length > 0) ? match[0] : url;
+  let match = url.match(/^\w*:\/\/.*?\/|about:.*|chrome:.*/gi);
+  return match && match.length > 0 ? match[0] : url;
 }
-
 
 /**
  * Test if the given URL is pinnable.
@@ -140,14 +137,13 @@ function GetHostname(url) {
  * Returns the matching patterns or null.
  */
 function IsPinnable(url) {
-    for (let pattern of patterns) {
-        if (Matches(pattern, url)) {
-            return pattern;
-        }
+  for (let pattern of patterns) {
+    if (Matches(pattern, url)) {
+      return pattern;
     }
-    return null;
+  }
+  return null;
 }
-
 
 /**
  * Test the pattern against the given URL.
@@ -158,15 +154,12 @@ function IsPinnable(url) {
 function Matches(pattern, url) {
   if (!url || !pattern.enabled) {
     return false;
-  }
-  else if (pattern.isRegex) {
+  } else if (pattern.isRegex) {
     return url.match(new RegExp(pattern.pattern));
-  }
-  else {
+  } else {
     return url == pattern.pattern;
   }
 }
-
 
 /********************************************************
  * Context menu management
@@ -175,73 +168,69 @@ function Matches(pattern, url) {
 /**
  * Refresh context menu state when the menu is opened
  */
-browser.contextMenus.onShown.addListener(async function(info, tab) {
-    if (tab.url) {
-        browser.contextMenus.update("pinUrl", {
-            title: "Auto pin \"" + tab.url + "\"",
-        });
-        let hostname = GetHostname(tab.url);
-        browser.contextMenus.update("pinHost", {
-            title: "Auto pin \"" + hostname + "*\"",
-        });
-        // force redraw of menu items (the popup menu was already shown)
-        browser.contextMenus.refresh();
-    }
+browser.contextMenus.onShown.addListener(async function (info, tab) {
+  // update current tab
+  currentTab = tab;
+  if (tab.url) {
+    browser.contextMenus.update('pinUrl', {
+      title: 'Auto pin "' + tab.url + '"',
+    });
+    let hostname = GetHostname(tab.url);
+    browser.contextMenus.update('pinHost', {
+      title: 'Auto pin "' + hostname + '*"',
+    });
+    // force redraw of menu items (the popup menu was already shown)
+    browser.contextMenus.refresh();
+  }
 });
-
 
 /**
  * Build context menu structure
  */
 function BuildContextMenu() {
-    browser.contextMenus.create({
-        id: "mainMenu",
-        title: "AutoPinTab",
-        contexts: ["all", "tab"]
-    });
-    browser.contextMenus.create({
-        id: "pinUrl",
-        title: "...",
-        contexts: ["all", "tab"],
-        parentId: "mainMenu",
-        onclick: function(){
-            browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
-                // keep only the first element of the returned array
-                if (tabs.length) {
-                    patterns.push(new Pattern(tabs[0].url, false));
-                    SavePatterns(patterns);
-                }
-            });
-        }
-    });
-    browser.contextMenus.create({
-        id: "pinHost",
-        title: "...",
-        contexts: ["all", "tab"],
-        parentId: "mainMenu",
-        onclick: function(){
-            browser.tabs.query({currentWindow: true, active: true}).then(function(tabs){
-              // keep only the first element of the returned array
-                if (tabs.length) {
-                    let url = tabs[0].url;
-                    let hostname = "^" + GetHostname(url).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
-                    patterns.push(new Pattern(hostname, true));
-                    SavePatterns(patterns);
-                }
-            });
-        }
-    });
-    browser.contextMenus.create({
-        id: "sep1",
-        contexts: ["all", "tab"],
-        type: "separator",
-        parentId: "mainMenu",
-    });
-    browser.contextMenus.create({
-        id: "optionsMenu",
-        title: "Options...",
-        contexts: ["all", "tab"],
-        parentId: "mainMenu",
-        onclick: function(){chrome.runtime.openOptionsPage();}
-    });
+  browser.contextMenus.create({
+    id: 'mainMenu',
+    title: 'AutoPinTab',
+    contexts: ['all', 'tab'],
+  });
+  browser.contextMenus.create({
+    id: 'pinUrl',
+    title: '...',
+    contexts: ['all', 'tab'],
+    parentId: 'mainMenu',
+    onclick: function () {
+      if (currentTab?.url) {
+        patterns.push(new Pattern(currentTab.url, false));
+        SavePatterns(patterns);
+      }
+    }
+  });
+  browser.contextMenus.create({
+    id: 'pinHost',
+    title: '...',
+    contexts: ['all', 'tab'],
+    parentId: 'mainMenu',
+    onclick: function () {
+      if (currentTab.url) {
+        let hostname = '^' + GetHostname(currentTab.url).replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+        patterns.push(new Pattern(hostname, true));
+        SavePatterns(patterns);
+      }
+    },
+  });
+  browser.contextMenus.create({
+    id: 'sep1',
+    contexts: ['all', 'tab'],
+    type: 'separator',
+    parentId: 'mainMenu',
+  });
+  browser.contextMenus.create({
+    id: 'optionsMenu',
+    title: 'Options...',
+    contexts: ['all', 'tab'],
+    parentId: 'mainMenu',
+    onclick: function () {
+      chrome.runtime.openOptionsPage();
+    },
+  });
 }
