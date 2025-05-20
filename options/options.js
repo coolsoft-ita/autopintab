@@ -23,6 +23,7 @@ $(function () {
 
   // load settings and update patterns list
   chrome.storage.local.get(SETTINGS_PROPERTIES, function (settings) {
+    if (!settings) settings = {};
     UpdatePatternsList(settings.patterns || []);
     $('#chkReorderTabs').prop('checked', settings[CFG_REORDER_TABS] ?? false);
   });
