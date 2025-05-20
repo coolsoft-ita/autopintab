@@ -50,6 +50,11 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 
 ## Changelog
 
+### v.1.3.5 - 2025-05-20
+
+- Fixed issue causing pattern delete to not be immediately active
+- Fixed delete button color with light theme
+
 ### v.1.3.4 - 2025-02-25
 
 - Wrong host added as pattern when opening context menu on an inactive tab (the active tab host is used instead)
