@@ -53,7 +53,7 @@ browser.storage.local.get(null, (settings) => {
  * Attach to settings changes
  */
 chrome.storage.onChanged.addListener((changes) => {
-  if (typeof changes.patterns != 'undefined' && changes.patterns.constructor == Array) {
+  if (Array.isArray(changes?.patterns?.newValue)) {
     patterns = changes.patterns.newValue;
   }
   if (typeof changes[CFG_REORDER_TABS] != 'undefined') {
