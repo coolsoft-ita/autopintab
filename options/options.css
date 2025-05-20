@@ -5,7 +5,7 @@
     color: var(--in-content-text-color);
 }
 body {
-    background-color: var(--in-content-box-background);  
+    background-color: var(--in-content-box-background);
 }
 a, a:visited {
     color: highlight;
@@ -82,10 +82,9 @@ label,
     margin-left: .2em;
     min-width: unset;
 }
-button.cmdDelete {
-    color: white;
-}
+
 button.cmdDelete:hover {
+    color: white;
     background-color: red;
 }
 
