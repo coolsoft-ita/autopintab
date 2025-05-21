@@ -50,6 +50,10 @@ visit its [homepage](http://coolsoft.altervista.org/autopintab) and click on **D
 
 ## Changelog
 
+### v.1.3.5.1 - 2025-05-21
+
+- Lowered manifest `strict_min_version` to 115 to allow installation on Firefox ESR
+
 ### v.1.3.5 - 2025-05-20
 
 - Fixed issue causing pattern delete to not be immediately active
